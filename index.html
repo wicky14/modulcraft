@@ -343,7 +343,7 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
         <div class="fr full mb0">
           <div class="fg">
             <label class="fl">Catatan untuk Programmer</label>
-            <textarea id="extra-notes" placeholder="cth: Tema hijau pesantren, integrasi printer thermal" style="min-height:54px" oninput="saveProj();schedPreview()"></textarea>
+            <textarea id="extra-notes" placeholder="cth: Tema hijau pesantren" style="min-height:54px" oninput="saveProj();schedPreview()"></textarea>
           </div>
         </div>
       </div>
@@ -923,7 +923,7 @@ function toast(msg,type='ok'){
 function loadExample(){
   setv('app-name','Sistem Informasi Pesantren');
   setv('target-user','Admin Pesantren, Ustadz, Wali Santri');
-  setv('extra-notes','Tema warna hijau pesantren (#1E6B47). Integrasi printer thermal untuk cetak kartu santri. Referensi: pesantren.id/dashboard. Mobile-first responsive.');
+  setv('extra-notes','');
   mods=[
     {id:'e1',name:'Modul Pengisian Data Santri',pri:'Wajib Ada',
      desc:'Memungkinkan admin pesantren mendaftarkan santri baru secara digital, mengisi biodata lengkap, mengunggah foto, dan menetapkan kelas serta kamar. Menggantikan form kertas manual.',
@@ -939,7 +939,7 @@ function loadExample(){
      desc:'Mengelola tagihan dan pembayaran SPP bulanan serta menghasilkan kuitansi resmi. Bendahara dapat melihat laporan keuangan real-time.',
      inp:'- Pilih nama santri / NIS\n- Bulan & tahun tagihan\n- Jumlah pembayaran\n- Metode bayar: Tunai / Transfer\n- Foto bukti transfer (jika transfer)',
      proc:'- Total tagihan = SPP Pokok + Biaya Makan + Biaya Listrik\n- Cek tunggakan bulan sebelumnya otomatis\n- Status "Lunas" otomatis setelah input\n- Laporan masuk ke dashboard bendahara',
-     out:'- Kuitansi PDF (cetak thermal)\n- Status: Lunas / Belum Lunas / Menunggak\n- Laporan pemasukan harian & bulanan\n- Reminder WhatsApp tanggal 5 tiap bulan',imgs:[]},
+     out:'- Kuitansi PDF\n- Status: Lunas / Belum Lunas / Menunggak\n- Laporan pemasukan harian & bulanan\n- Reminder WhatsApp tanggal 5 tiap bulan',imgs:[]},
     {id:'e4',name:'Modul Nilai & Rapor',pri:'Tambahan Saja',
      desc:'Ustadz memasukkan nilai ujian, nilai harian, dan nilai hafalan. Sistem otomatis menghitung nilai akhir dan menghasilkan rapor digital.',
      inp:'- Pilih kelas & mata pelajaran\n- Pilih periode (semester)\n- Nilai harian (0–100)\n- Nilai UTS\n- Nilai UAS\n- Nilai hafalan (halaman/juz)',
