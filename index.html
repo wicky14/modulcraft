@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ModulCraft — Daftar Kebutuhan Aplikasi</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -121,9 +121,29 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);f
 .sb-item.on .sb-name{color:var(--accent);}
 .sb-tag{font-size:9.5px;padding:1px 6px;border-radius:20px;font-weight:700;display:inline-block;margin-top:2px;}
 .tw{background:var(--gold-l);color:#8A6A1A;} .tt{background:var(--green-l);color:var(--green);}
-.sb-del{background:transparent;border:none;cursor:pointer;padding:2px 4px;color:var(--ink-muted);border-radius:4px;flex-shrink:0;transition:all .13s;opacity:0;display:flex;align-items:center;}
-.sb-item:hover .sb-del{opacity:1;} .sb-del:hover{background:var(--red-l);color:var(--red);}
-.sb-del svg{width:11px;height:11px;}
+.sb-del{
+  background:transparent;border:none;cursor:pointer;
+  width:28px;height:28px;border-radius:6px;flex-shrink:0;
+  transition:all .13s;opacity:0;display:flex;align-items:center;justify-content:center;
+  color:var(--ink-muted);
+}
+.sb-item:hover .sb-del{opacity:1;}
+.sb-del:hover{background:var(--red-l);color:var(--red);}
+.sb-del svg{width:13px;height:13px;}
+/* Mobile: delete always visible, bigger touch target */
+@media(max-width:768px){
+  .sb-del{
+    opacity:1;
+    background:var(--red-l);
+    color:var(--red);
+    width:32px;height:32px;
+    border-radius:8px;
+    border:1px solid #E8BFBF;
+  }
+  .sb-del svg{width:14px;height:14px;}
+  .sb-del:active{background:var(--red);color:#fff;}
+  .sb-row{padding:10px 9px;align-items:center;}
+}
 .sb-empty{padding:28px 14px;text-align:center;color:var(--ink-muted);font-size:12px;}
 .sb-empty-icon{font-size:26px;margin-bottom:7px;opacity:.4;}
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:199;backdrop-filter:blur(2px);}
@@ -132,7 +152,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);f
 /* ══ MAIN ════════════════════════════════════ */
 .main{flex:1;overflow-y:auto;min-width:0;}
 .main::-webkit-scrollbar{width:5px;} .main::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-.main-inner{max-width:660px;margin:0 auto;padding:22px 20px 80px;}
+.main-inner{max-width:100%;margin:0 auto;padding:22px 20px 80px;}
 .sec-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
 .sec-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ink);}
 .sec-title small{display:block;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink-muted);font-weight:400;margin-top:1px;}
@@ -175,12 +195,23 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 .pv-panel.open{width:var(--pv);}
 .pv-head{padding:9px 12px;background:var(--warm-white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;width:var(--pv);}
 .pv-title{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);}
-.pv-scroll{flex:1;min-height:0;width:var(--pv);overflow-y:scroll;overflow-x:hidden;padding:12px;display:flex;flex-direction:column;align-items:center;}
-.pv-scroll::-webkit-scrollbar{width:5px;}
-.pv-scroll::-webkit-scrollbar-track{background:#D4CFC9;}
-.pv-scroll::-webkit-scrollbar-thumb{background:#A89E94;border-radius:3px;}
-.pv-scroll::-webkit-scrollbar-thumb:hover{background:#7A6E65;}
+.pv-scroll{flex:1;min-height:0;width:var(--pv);overflow-y:scroll;overflow-x:auto;padding:12px;display:flex;flex-direction:column;align-items:center;}
+.pv-scroll::-webkit-scrollbar{width:5px;} .pv-scroll::-webkit-scrollbar-track{background:#D4CFC9;}
+.pv-scroll::-webkit-scrollbar-thumb{background:#A89E94;border-radius:3px;} .pv-scroll::-webkit-scrollbar-thumb:hover{background:#7A6E65;}
+/* Zoom wrapper — scales the .pv-page, allowing pinch/scroll zoom */
+.pv-zoom-wrap{width:100%;display:flex;flex-direction:column;align-items:center;transform-origin:top center;transition:transform .18s ease;}
 .pv-page{width:100%;background:#fff;box-shadow:var(--sh-lg);border-radius:3px;}
+/* Zoom controls bar */
+.pv-zoom-bar{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.pv-zoom-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);background:var(--warm-white);color:var(--ink);font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .14s;}
+.pv-zoom-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.pv-zoom-label{font-size:11px;font-weight:700;color:var(--ink-muted);min-width:36px;text-align:center;font-family:'DM Mono',monospace;}
+
+/* ══ TEXTAREA AUTO-RESIZE ════════════════════ */
+textarea.auto-resize{resize:none;overflow:hidden;min-height:72px;transition:border-color .14s,box-shadow .14s;}
+@media(max-width:768px){
+  textarea.auto-resize{min-height:80px;font-size:15px;line-height:1.65;}
+}
 
 /* ══ TOAST ═══════════════════════════════════ */
 .toasts{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:7px;}
@@ -343,7 +374,7 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
         <div class="fr full mb0">
           <div class="fg">
             <label class="fl">Catatan untuk Programmer</label>
-            <textarea id="extra-notes" placeholder="cth: Tema hijau pesantren" style="min-height:54px" oninput="saveProj();schedPreview()"></textarea>
+            <textarea id="extra-notes" class="auto-resize" placeholder="cth: Tema hijau pesantren" style="min-height:54px" oninput="saveProj();schedPreview();autoResize(this)"></textarea>
           </div>
         </div>
       </div>
@@ -373,25 +404,25 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
         <div class="fr full">
           <div class="fg">
             <label class="fl">Deskripsi Fitur</label>
-            <textarea id="mod-desc" placeholder="Jelaskan kegunaan fitur ini bagi pengguna."></textarea>
+            <textarea id="mod-desc" class="auto-resize" placeholder="Jelaskan kegunaan fitur ini bagi pengguna." oninput="autoResize(this)"></textarea>
           </div>
         </div>
         <div class="fr full">
           <div class="fg">
             <label class="fl">Input Data <span class="fh" style="text-transform:none;font-weight:400;font-size:11px;">(apa yang diisi user?)</span></label>
-            <textarea id="mod-input" placeholder="- Nama lengkap&#10;- Tanggal lahir&#10;- Foto 3x4"></textarea>
+            <textarea id="mod-input" class="auto-resize" placeholder="- Nama lengkap&#10;- Tanggal lahir&#10;- Foto 3x4" oninput="autoResize(this)"></textarea>
           </div>
         </div>
         <div class="fr full">
           <div class="fg">
             <label class="fl">Proses / Logika Program</label>
-            <textarea id="mod-process" placeholder="- Sistem otomatis buat NIS unik&#10;- Validasi NIK tidak boleh duplikat"></textarea>
+            <textarea id="mod-process" class="auto-resize" placeholder="- Sistem otomatis buat NIS unik&#10;- Validasi NIK tidak boleh duplikat" oninput="autoResize(this)"></textarea>
           </div>
         </div>
         <div class="fr full">
           <div class="fg">
             <label class="fl">Output / Hasil Akhir</label>
-            <textarea id="mod-output" placeholder="- Data Santri PDF bisa dicetak&#10;- Data tersimpan di database"></textarea>
+            <textarea id="mod-output" class="auto-resize" placeholder="- Data Santri PDF bisa dicetak&#10;- Data tersimpan di database" oninput="autoResize(this)"></textarea>
           </div>
         </div>
         <div class="fr full mb0">
@@ -431,7 +462,15 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
         <button class="btn btn-outline btn-xs" onclick="closePreview()">✕</button>
       </div>
     </div>
-    <div class="pv-scroll" id="pv-scroll"></div>
+    <div class="pv-scroll" id="pv-scroll">
+      <div class="pv-zoom-bar">
+        <button class="pv-zoom-btn" onclick="pvZoom(-1)" title="Perkecil">−</button>
+        <span class="pv-zoom-label" id="pv-zoom-label">100%</span>
+        <button class="pv-zoom-btn" onclick="pvZoom(+1)" title="Perbesar">+</button>
+        <button class="pv-zoom-btn" onclick="pvZoomReset()" title="Reset" style="font-size:10px;width:auto;border-radius:10px;padding:0 7px;">↺</button>
+      </div>
+      <div class="pv-zoom-wrap" id="pv-zoom-wrap"></div>
+    </div>
   </div>
 </div>
 
@@ -534,8 +573,15 @@ function editMod(id){
   $('edit-name').textContent=m.name;
   $('form-title').innerHTML='Edit Modul<small>Perbarui data modul yang dipilih</small>';
   renderSb();
-  $('mod-form').scrollIntoView({behavior:'smooth',block:'start'});
+  autoResizeAll();
+  // Mobile: tutup preview dulu, baru navigasi ke form
+  if(window.innerWidth<=768){
+    $('pv-panel').classList.remove('mob-modal','open');
+    pvOpen=false;
+    setMobActive('mnav-form');
+  }
   closeSidebar();
+  $('mod-form').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function delMod(id){
   if(!confirm('Hapus modul ini?'))return;
@@ -559,6 +605,7 @@ function newModule(){
 function clearForm(){
   ['mod-name','mod-desc','mod-input','mod-process','mod-output'].forEach(id=>setv(id,''));
   setv('mod-pri','Tinggi');imgs=[];renderImgGrid();updatePri();
+  autoResizeAll();
 }
 
 /* ════════════════════════════════════════
@@ -698,8 +745,43 @@ function closePreview(){
   if(window.innerWidth<=768)setMobActive('mnav-form');
 }
 function renderPreview(){
-  const s=$('pv-scroll');
-  s.innerHTML=`<div class="pv-page">${buildDoc()}</div>`;
+  const wrap=$('pv-zoom-wrap');
+  if(!wrap)return;
+  wrap.innerHTML=`<div class="pv-page">${buildDoc()}</div>`;
+  // Re-apply current zoom scale
+  wrap.style.transform=`scale(${pvScale})`;
+  wrap.style.width = pvScale>1 ? `${100/pvScale}%` : '100%';
+}
+let pvScale=1;
+const PV_STEPS=[0.5,0.6,0.7,0.8,0.9,1,1.1,1.25,1.5,1.75,2,2.5];
+function pvZoom(dir){
+  const idx=PV_STEPS.indexOf(pvScale);
+  const next=Math.max(0,Math.min(PV_STEPS.length-1,idx+dir));
+  pvScale=PV_STEPS[next];
+  const wrap=$('pv-zoom-wrap');
+  if(wrap){
+    wrap.style.transform=`scale(${pvScale})`;
+    wrap.style.width=pvScale>1?`${Math.round(100/pvScale)}%`:'100%';
+    wrap.style.transformOrigin='top center';
+  }
+  $('pv-zoom-label').textContent=Math.round(pvScale*100)+'%';
+}
+function pvZoomReset(){
+  pvScale=1;
+  const wrap=$('pv-zoom-wrap');
+  if(wrap){wrap.style.transform='scale(1)';wrap.style.width='100%';}
+  $('pv-zoom-label').textContent='100%';
+}
+
+/* ════════════════════════════════════════
+   TEXTAREA AUTO-RESIZE
+════════════════════════════════════════ */
+function autoResize(el){
+  el.style.height='auto';
+  el.style.height=el.scrollHeight+'px';
+}
+function autoResizeAll(){
+  document.querySelectorAll('textarea.auto-resize').forEach(autoResize);
 }
 function schedPreview(){
   if(!pvOpen)return;
@@ -783,67 +865,240 @@ function doPrint(){
 }
 
 /* ════════════════════════════════════════
-   EXPORT WORD (.doc)
-   Uses mhtml trick that Word can open
+   EXPORT WORD — Clean Professional Layout
 ════════════════════════════════════════ */
 function exportWord(){
   if(!mods.length){toast('Belum ada modul!','err');return;}
   $('export-menu').classList.remove('open');
-  const app=val('app-name')||'Dokumen';
+  const app  = val('app-name')||'Dokumen';
+  const usr  = val('target-user')||'—';
+  const notes= val('extra-notes');
+  const now  = new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
+  const wM   = mods.filter(m=>m.pri==='Tinggi');
+  const tM   = mods.filter(m=>m.pri==='Rendah');
 
-  const wordStyles=`
-    body{font-family:'DM Sans',Calibri,sans-serif;font-size:10pt;color:#1A1209;margin:2cm;}
-    .pdoc{width:100%;}
-    .pdoc-hdr{border-bottom:2pt solid #C8622A;padding-bottom:8pt;margin-bottom:10pt;display:table;width:100%;}
-    .pdoc-hdr>div:first-child{display:table-cell;vertical-align:bottom;}
-    .pdoc-hdr-r{display:table-cell;text-align:right;vertical-align:bottom;}
-    .pdoc-hdr-accent{font-size:7pt;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#C8622A;margin-bottom:2pt;}
-    .pdoc-hdr-title{font-family:'Playfair Display','Times New Roman',serif;font-size:18pt;font-weight:700;color:#1A1209;line-height:1.2;}
-    .pdoc-hdr-app{font-size:11pt;font-weight:bold;color:#1A1209;}
-    .pdoc-hdr-meta{font-size:8pt;color:#8A7A66;}
-    .pdoc-info{border:1pt solid #E2D9CC;background:#FAF7F2;margin-bottom:10pt;width:100%;border-collapse:collapse;}
-    .pdoc-ic{padding:6pt 8pt;border-right:1pt solid #E2D9CC;}
-    .pdoc-il{font-size:7pt;font-weight:bold;text-transform:uppercase;color:#8A7A66;letter-spacing:.5px;}
-    .pdoc-iv{font-size:9.5pt;font-weight:600;}
-    .pdoc-glbl{font-size:7.5pt;font-weight:bold;text-transform:uppercase;padding:3pt 8pt;margin:6pt 0 5pt;display:inline-block;}
-    .gl-w{background:#F7EFD8;color:#8A6A1A;} .gl-t{background:#E6F2EC;color:#3A7A5C;}
-    .pdoc-mod{border:1pt solid #DDD6CE;margin-bottom:8pt;page-break-inside:avoid;width:100%;}
-    .pdoc-mhd{background:#F8F5F0;padding:6pt 8pt;border-bottom:1pt solid #DDD6CE;}
-    .pdoc-mnum{font-size:7pt;font-weight:bold;color:#C8622A;background:#F5E6DB;padding:1pt 4pt;margin-right:5pt;}
-    .pdoc-mname{font-size:9.5pt;font-weight:bold;}
-    .pdoc-mpri{font-size:7pt;font-weight:bold;padding:1pt 5pt;float:right;}
-    .pm-w{background:#F7EFD8;color:#8A6A1A;} .pm-t{background:#E6F2EC;color:#3A7A5C;}
-    .pdoc-mbody{padding:6pt 8pt;}
-    .pdoc-f{margin-bottom:6pt;}
-    .pdoc-fl{font-size:7pt;font-weight:bold;text-transform:uppercase;color:#8A7A66;border-bottom:1pt solid #EEE8DF;padding-bottom:1pt;margin-bottom:2pt;letter-spacing:.5px;}
-    .pdoc-fv{font-size:9pt;color:#2A2015;white-space:pre-wrap;}
-    .pdoc-2c{display:table;width:100%;border-collapse:collapse;}
-    .pdoc-2c>div{display:table-cell;width:50%;padding-right:8pt;vertical-align:top;}
-    .pdoc-notes{background:#FFF8F5;border:1pt solid #F0D5C5;padding:6pt 8pt;margin-top:8pt;}
-    .pdoc-nl{font-size:7pt;font-weight:bold;text-transform:uppercase;color:#C8622A;margin-bottom:3pt;}
-    .pdoc-nv{font-size:9pt;white-space:pre-wrap;}
-    .pdoc-ftr{border-top:1pt solid #E2D9CC;margin-top:10pt;padding-top:5pt;font-size:7.5pt;color:#8A7A66;}
-    .pdoc-imgs{margin-top:4pt;} .pdoc-img-wrap{display:inline-block;margin-right:6pt;text-align:center;vertical-align:top;}
-    .pdoc-img-cap{font-size:7pt;color:#8A7A66;display:block;}
-  `;
+  function x(s){if(!s)return '—';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function xo(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+  // Renders text: bullet list → <ul><li>, else paragraph
+  function renderVal(text){
+    if(!text) return '<p style="color:#999;font-style:italic;margin:0;font-size:10pt;">—</p>';
+    const lines=text.split('\n').map(l=>l.trim()).filter(Boolean);
+    if(lines.length>1 && lines.every(l=>l.startsWith('-'))){
+      return `<ul style="margin:2pt 0 0 16pt;padding:0;">${lines.map(l=>`<li style="margin-bottom:2pt;font-size:10.5pt;line-height:1.5;">${xo(l.replace(/^-\s*/,''))}</li>`).join('')}</ul>`;
+    }
+    return `<p style="margin:2pt 0 0;font-size:10.5pt;line-height:1.55;white-space:pre-wrap;">${xo(text)}</p>`;
+  }
+
+  // A label row spanning full width (section divider inside module)
+  function labelRow(txt){
+    return `<tr>
+      <td colspan="2" style="background:#F2F2F2;padding:4pt 10pt;border-top:0.5pt solid #BEBEBE;border-bottom:0.5pt solid #BEBEBE;">
+        <p style="margin:0;font-size:7.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;color:#555;">${txt}</p>
+      </td>
+    </tr>`;
+  }
+
+  // A value row spanning full width
+  function valueRow(text){
+    return `<tr>
+      <td colspan="2" style="padding:6pt 10pt 8pt;">
+        ${renderVal(text)}
+      </td>
+    </tr>`;
+  }
+
+  // Two-column label row
+  function dualLabelRow(l1, l2){
+    return `<tr>
+      <td style="width:50%;background:#F2F2F2;padding:4pt 10pt;border-top:0.5pt solid #BEBEBE;border-bottom:0.5pt solid #BEBEBE;border-right:0.5pt solid #BEBEBE;">
+        <p style="margin:0;font-size:7.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;color:#555;">${l1}</p>
+      </td>
+      <td style="width:50%;background:#F2F2F2;padding:4pt 10pt;border-top:0.5pt solid #BEBEBE;border-bottom:0.5pt solid #BEBEBE;">
+        <p style="margin:0;font-size:7.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;color:#555;">${l2}</p>
+      </td>
+    </tr>`;
+  }
+
+  // Two-column value row
+  function dualValueRow(t1, t2){
+    return `<tr>
+      <td style="vertical-align:top;padding:6pt 10pt 8pt;border-right:0.5pt solid #DEDEDE;">
+        ${renderVal(t1)}
+      </td>
+      <td style="vertical-align:top;padding:6pt 10pt 8pt;">
+        ${renderVal(t2)}
+      </td>
+    </tr>`;
+  }
+
+  // Image row
+  function imgRow(imgs){
+    if(!imgs?.length) return '';
+    const sz=imgs.length===1?80:imgs.length<=2?65:50;
+    return `${labelRow('Gambar Referensi')}
+    <tr>
+      <td colspan="2" style="padding:8pt 10pt;">
+        ${imgs.map(img=>`<div style="display:inline-block;text-align:center;margin-right:8pt;vertical-align:top;">
+          <img src="${img.d}" width="${sz}" height="${sz}" style="border:0.5pt solid #CCC;display:block;object-fit:cover;"/>
+          <p style="margin:2pt 0 0;font-size:7pt;color:#777;max-width:${sz+10}pt;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${xo(img.n)}</p>
+        </div>`).join('')}
+      </td>
+    </tr>`;
+  }
+
+  // Full module table
+  function moduleTable(m, num){
+    const priLabel = m.pri==='Tinggi' ? 'Prioritas Tinggi' : 'Prioritas Rendah';
+    const hasInpProc = m.inp || m.proc;
+    return `
+<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border:1pt solid #BEBEBE;margin-bottom:14pt;font-family:Calibri,Arial,sans-serif;page-break-inside:avoid;">
+  <!-- Header baris: nomor + nama + prioritas -->
+  <tr style="background:#222;">
+    <td colspan="2" style="padding:7pt 10pt;background:#222;">
+      <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+        <tr>
+          <td style="vertical-align:middle;">
+            <p style="margin:0;color:#fff;">
+              <span style="font-family:'Courier New',monospace;font-size:8.5pt;background:#555;color:#fff;padding:1pt 5pt;margin-right:6pt;">${String(num).padStart(2,'0')}</span>
+              <span style="font-size:11.5pt;font-weight:bold;">${x(m.name)}</span>
+            </p>
+          </td>
+          <td style="text-align:right;vertical-align:middle;">
+            <p style="margin:0;font-size:8.5pt;color:#CCC;font-style:italic;">${priLabel}</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  ${m.desc ? `${labelRow('Deskripsi Fitur')}${valueRow(m.desc)}` : ''}
+  ${hasInpProc ? `${dualLabelRow('Input Data','Proses / Logika Program')}${dualValueRow(m.inp,m.proc)}` : ''}
+  ${m.out ? `${labelRow('Output / Hasil Akhir')}${valueRow(m.out)}` : ''}
+  ${imgRow(m.imgs)}
+</table>`;
+  }
+
+  // Section separator row as its own table
+  function sectionTable(letter, label){
+    return `
+<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin:18pt 0 8pt;font-family:Calibri,Arial,sans-serif;">
+  <tr>
+    <td style="padding:6pt 10pt;border-left:3pt solid #222;background:#F7F7F7;border-bottom:1pt solid #BEBEBE;">
+      <p style="margin:0;font-size:10pt;font-weight:bold;text-transform:uppercase;letter-spacing:1.2px;color:#222;">${letter}. ${label}</p>
+    </td>
+  </tr>
+</table>`;
+  }
+
+  let body = '';
+  let n = 1;
+  if(wM.length){
+    body += sectionTable('A',`Modul Prioritas Tinggi (${wM.length})`);
+    wM.forEach(m=>{ body += moduleTable(m,n++); });
+  }
+  if(tM.length){
+    body += sectionTable('B',`Modul Prioritas Rendah (${tM.length})`);
+    tM.forEach(m=>{ body += moduleTable(m,n++); });
+  }
+  if(notes){
+    body += `
+<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin-top:18pt;border:1pt solid #BEBEBE;font-family:Calibri,Arial,sans-serif;">
+  <tr>
+    <td style="background:#F2F2F2;padding:4pt 10pt;border-bottom:0.5pt solid #BEBEBE;">
+      <p style="margin:0;font-size:7.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;color:#555;">Catatan Tambahan untuk Programmer</p>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:8pt 10pt;">
+      <p style="margin:0;font-size:10.5pt;line-height:1.6;white-space:pre-wrap;">${xo(notes)}</p>
+    </td>
+  </tr>
+</table>`;
+  }
+
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:w="urn:schemas-microsoft-com:office:word"
+    xmlns="http://www.w3.org/TR/REC-html40">
 <head>
 <meta charset="UTF-8">
 <meta name="ProgId" content="Word.Document">
-<meta name="Generator" content="Microsoft Word 15">
-<title>${esc(app)}</title>
-<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>90</w:Zoom><w:DoNotOptimizeForBrowser/></w:WordDocument></xml><![endif]-->
-<style>${wordStyles}</style>
+<title>${x(app)}</title>
+<!--[if gte mso 9]><xml><w:WordDocument>
+  <w:View>Print</w:View><w:Zoom>100</w:Zoom><w:DoNotOptimizeForBrowser/>
+</w:WordDocument></xml><![endif]-->
+<style>
+  @page{size:A4;margin:2.2cm 2.5cm 2.2cm 2.5cm;}
+  body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#111;line-height:1.5;margin:0;}
+  p,ul,li{margin:0;padding:0;}
+  table{border-collapse:collapse;}
+</style>
 </head>
-<body>${buildDoc()}</body>
-</html>`;
+<body>
+
+<!-- ═══ COVER HEADER ═══ -->
+<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-bottom:2pt solid #111;padding-bottom:14pt;margin-bottom:16pt;">
+  <tr>
+    <td style="vertical-align:bottom;padding-bottom:14pt;">
+      <p style="margin:0 0 4pt;font-size:8pt;text-transform:uppercase;letter-spacing:2px;color:#666;">Dokumentasi Teknis · ModulCraft</p>
+      <p style="margin:0 0 2pt;font-size:22pt;font-weight:bold;line-height:1.1;">Daftar Kebutuhan</p>
+      <p style="margin:0;font-size:22pt;font-weight:bold;line-height:1.1;">Modul Aplikasi</p>
+    </td>
+    <td style="text-align:right;vertical-align:bottom;padding-bottom:14pt;white-space:nowrap;">
+      <p style="margin:0 0 2pt;font-size:12pt;font-weight:bold;">${x(app)}</p>
+      <p style="margin:0;font-size:8.5pt;color:#666;">Dibuat: ${now}</p>
+      <p style="margin:0;font-size:8.5pt;color:#666;">${mods.length} Modul</p>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══ INFO PROYEK ═══ -->
+<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border:1pt solid #BEBEBE;margin-bottom:6pt;">
+  <tr style="background:#F2F2F2;">
+    <td style="width:25%;padding:4pt 10pt;border-bottom:0.5pt solid #BEBEBE;border-right:0.5pt solid #BEBEBE;">
+      <p style="margin:0;font-size:7.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;color:#555;">Nama Aplikasi</p>
+    </td>
+    <td style="width:25%;padding:4pt 10pt;border-bottom:0.5pt solid #BEBEBE;border-right:1pt solid #BEBEBE;">
+      <p style="margin:0;font-size:7.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;color:#555;">Target Pengguna</p>
+    </td>
+    <td style="width:25%;padding:4pt 10pt;border-bottom:0.5pt solid #BEBEBE;border-right:0.5pt solid #BEBEBE;">
+      <p style="margin:0;font-size:7.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;color:#555;">Tanggal Dibuat</p>
+    </td>
+    <td style="width:25%;padding:4pt 10pt;border-bottom:0.5pt solid #BEBEBE;">
+      <p style="margin:0;font-size:7.5pt;font-weight:bold;text-transform:uppercase;letter-spacing:.8px;color:#555;">Jumlah Modul</p>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:7pt 10pt;border-right:0.5pt solid #BEBEBE;">
+      <p style="margin:0;font-size:10.5pt;font-weight:bold;">${x(app)}</p>
+    </td>
+    <td style="padding:7pt 10pt;border-right:1pt solid #BEBEBE;">
+      <p style="margin:0;font-size:10.5pt;">${x(usr)}</p>
+    </td>
+    <td style="padding:7pt 10pt;border-right:0.5pt solid #BEBEBE;">
+      <p style="margin:0;font-size:10.5pt;">${now}</p>
+    </td>
+    <td style="padding:7pt 10pt;">
+      <p style="margin:0;font-size:10.5pt;font-weight:bold;">${mods.length} modul</p>
+    </td>
+  </tr>
+</table>
+
+${body}
+
+<!-- ═══ FOOTER ═══ -->
+<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-top:0.5pt solid #CCC;margin-top:20pt;padding-top:6pt;">
+  <tr>
+    <td style="padding-top:6pt;font-size:8.5pt;color:#888;">ModulCraft &mdash; ${x(app)}</td>
+    <td style="padding-top:6pt;text-align:right;font-size:8.5pt;color:#888;">${now}</td>
+  </tr>
+</table>
+
+</body></html>`;
 
   const blob=new Blob(['\ufeff'+html],{type:'application/msword'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;
-  a.download=`Kebutuhan_Modul_${app.replace(/[^a-zA-Z0-9]/g,'_')}.doc`;
+  a.href=url;a.download=`Kebutuhan_Modul_${app.replace(/[^a-zA-Z0-9]/g,'_')}.doc`;
   a.click();
   setTimeout(()=>URL.revokeObjectURL(url),2000);
   toast('File Word berhasil diunduh ✓','ok');
@@ -956,6 +1211,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   loadProj();
   renderSb();
   updatePri();
+  autoResizeAll();
 });
 </script>
 </body>
