@@ -365,8 +365,8 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
           <div class="fg">
             <label class="fl">Prioritas</label>
             <select id="mod-pri" onchange="updatePri()">
-              <option value="Wajib Ada">⭐ Wajib Ada</option>
-              <option value="Tambahan Saja">💡 Tambahan Saja</option>
+              <option value="Tinggi">⭐ Tinggi</option>
+              <option value="Rendah">💡 Rendah</option>
             </select>
           </div>
         </div>
@@ -558,7 +558,7 @@ function newModule(){
 }
 function clearForm(){
   ['mod-name','mod-desc','mod-input','mod-process','mod-output'].forEach(id=>setv(id,''));
-  setv('mod-pri','Wajib Ada');imgs=[];renderImgGrid();updatePri();
+  setv('mod-pri','Tinggi');imgs=[];renderImgGrid();updatePri();
 }
 
 /* ════════════════════════════════════════
@@ -569,8 +569,8 @@ function renderSb(){
   $('sb-count').textContent=mods.length;
   if(!mods.length){list.innerHTML=`<div class="sb-empty"><div class="sb-empty-icon">📋</div><p>Belum ada modul.<br>Klik tombol di atas.</p></div>`;return;}
   list.innerHTML=mods.map((m,i)=>{
-    const tc=m.pri==='Wajib Ada'?'tw':'tt';
-    const tt=m.pri==='Wajib Ada'?'⭐ Wajib':'💡 Tambahan';
+    const tc=m.pri==='Tinggi'?'tw':'tt';
+    const tt=m.pri==='Tinggi'?'⭐ Tinggi':'💡 Rendah';
     const imgB=m.imgs?.length?` <span style="opacity:.5;font-size:9px">🖼${m.imgs.length}</span>`:'';
     return `<div class="sb-item${editId===m.id?' on':''}" id="si-${m.id}">
       <div class="sb-row">
@@ -624,8 +624,8 @@ function buildDoc(){
   const usr=val('target-user')||'—';
   const notes=val('extra-notes');
   const now=new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
-  const wM=mods.filter(m=>m.pri==='Wajib Ada');
-  const tM=mods.filter(m=>m.pri==='Tambahan Saja');
+  const wM=mods.filter(m=>m.pri==='Tinggi');
+  const tM=mods.filter(m=>m.pri==='Rendah');
 
   function renderImgs(imgArr){
     if(!imgArr?.length)return '';
@@ -645,7 +645,7 @@ function buildDoc(){
             <span class="pdoc-mnum">${String(start+i+1).padStart(2,'0')}</span>
             <span class="pdoc-mname">${esc(m.name)}</span>
           </div>
-          <span class="pdoc-mpri ${m.pri==='Wajib Ada'?'pm-w':'pm-t'}">${m.pri==='Wajib Ada'?'⭐ Wajib Ada':'💡 Tambahan'}</span>
+          <span class="pdoc-mpri ${m.pri==='Tinggi'?'pm-w':'pm-t'}">${m.pri==='Tinggi'?'⭐ Tinggi':'💡 Rendah'}</span>
         </div>
         <div class="pdoc-mbody">
           ${m.desc?`<div class="pdoc-f"><div class="pdoc-fl">Deskripsi Fitur</div><div class="pdoc-fv">${esc(m.desc)}</div></div>`:''}
@@ -674,8 +674,8 @@ function buildDoc(){
       <div class="pdoc-ic"><div class="pdoc-il">Nama Aplikasi</div><div class="pdoc-iv">${esc(app)}</div></div>
       <div class="pdoc-ic"><div class="pdoc-il">Target Pengguna</div><div class="pdoc-iv">${esc(usr)}</div></div>
     </div>
-    ${wM.length?`<div class="pdoc-glbl gl-w">⭐ Modul Wajib Ada (${wM.length})</div>${renderMods(wM,0)}`:''}
-    ${tM.length?`<div class="pdoc-glbl gl-t" style="margin-top:6px">💡 Modul Tambahan (${tM.length})</div>${renderMods(tM,wM.length)}`:''}
+    ${wM.length?`<div class="pdoc-glbl gl-w">⭐ Modul Prioritas Tinggi (${wM.length})</div>${renderMods(wM,0)}`:''}
+    ${tM.length?`<div class="pdoc-glbl gl-t" style="margin-top:6px">💡 Modul Prioritas Rendah (${tM.length})</div>${renderMods(tM,wM.length)}`:''}
     ${notes?`<div class="pdoc-notes"><div class="pdoc-nl">📌 Catatan Tambahan untuk Programmer</div><div class="pdoc-nv">${esc(notes)}</div></div>`:''}
     <div class="pdoc-ftr"><span>ModulCraft · ${esc(app)}</span><span>${now}</span></div>
   </div>`;
@@ -902,7 +902,7 @@ function mobPreview(){
 /* ════════════════════════════════════════
    MISC
 ════════════════════════════════════════ */
-function updatePri(){const s=$('mod-pri');s.className=s.value==='Wajib Ada'?'pw':'pt';}
+function updatePri(){const s=$('mod-pri');s.className=s.value==='Tinggi'?'pw':'pt';}
 function confirmReset(){
   if(!confirm('Reset semua data?'))return;
   localStorage.removeItem(SK);
@@ -925,22 +925,22 @@ function loadExample(){
   setv('target-user','Admin Pesantren, Ustadz, Wali Santri');
   setv('extra-notes','');
   mods=[
-    {id:'e1',name:'Modul Pengisian Data Santri',pri:'Wajib Ada',
+    {id:'e1',name:'Modul Pengisian Data Santri',pri:'Tinggi',
      desc:'Memungkinkan admin pesantren mendaftarkan santri baru secara digital, mengisi biodata lengkap, mengunggah foto, dan menetapkan kelas serta kamar. Menggantikan form kertas manual.',
      inp:'- Nama lengkap santri\n- Tempat & tanggal lahir\n- NIK (Nomor Induk Kependudukan)\n- Alamat asal (Provinsi, Kota, Kecamatan, RT/RW)\n- Nama & nomor HP wali santri\n- Pendidikan terakhir\n- Foto santri (JPG/PNG, maks 2MB)\n- Kelas yang dituju\n- Nomor kamar asrama',
      proc:'- Sistem otomatis membuat NIS unik: PS-[TAHUN]-[URUTAN]\n- Validasi: NIK tidak boleh duplikat\n- Validasi: Format nomor HP wali (08xx)\n- Foto otomatis di-resize ke 300x400px\n- Status santri default = "Aktif"',
      out:'- Data santri tersimpan di database\n- NIS unik terbuat otomatis\n- Daftar santri admin terupdate',imgs:[]},
-    {id:'e2',name:'Modul Absensi Santri',pri:'Wajib Ada',
+    {id:'e2',name:'Modul Absensi Santri',pri:'Tinggi',
      desc:'Mencatat kehadiran santri pada setiap sesi kegiatan dan menghasilkan laporan rekapitulasi bulanan untuk wali dan pimpinan pesantren.',
      inp:'- Pilih tanggal & sesi kegiatan\n- Pilih kelas\n- Status tiap santri: Hadir / Izin / Sakit / Alfa\n- Keterangan (opsional)',
      proc:'- Alfa >3x seminggu → flag peringatan otomatis\n- Rekapitulasi bulanan dihitung otomatis (% kehadiran)\n- Kehadiran <75% → status merah di dashboard',
      out:'- Data absensi tersimpan per sesi\n- Dashboard absensi real-time per kelas\n- Laporan PDF rekapitulasi bulanan\n- Flag peringatan santri bermasalah',imgs:[]},
-    {id:'e3',name:'Modul Pembayaran SPP',pri:'Wajib Ada',
+    {id:'e3',name:'Modul Pembayaran SPP',pri:'Tinggi',
      desc:'Mengelola tagihan dan pembayaran SPP bulanan serta menghasilkan kuitansi resmi. Bendahara dapat melihat laporan keuangan real-time.',
      inp:'- Pilih nama santri / NIS\n- Bulan & tahun tagihan\n- Jumlah pembayaran\n- Metode bayar: Tunai / Transfer\n- Foto bukti transfer (jika transfer)',
      proc:'- Total tagihan = SPP Pokok + Biaya Makan + Biaya Listrik\n- Cek tunggakan bulan sebelumnya otomatis\n- Status "Lunas" otomatis setelah input\n- Laporan masuk ke dashboard bendahara',
      out:'- Kuitansi PDF\n- Status: Lunas / Belum Lunas / Menunggak\n- Laporan pemasukan harian & bulanan\n- Reminder WhatsApp tanggal 5 tiap bulan',imgs:[]},
-    {id:'e4',name:'Modul Nilai & Rapor',pri:'Tambahan Saja',
+    {id:'e4',name:'Modul Nilai & Rapor',pri:'Rendah',
      desc:'Ustadz memasukkan nilai ujian, nilai harian, dan nilai hafalan. Sistem otomatis menghitung nilai akhir dan menghasilkan rapor digital.',
      inp:'- Pilih kelas & mata pelajaran\n- Pilih periode (semester)\n- Nilai harian (0–100)\n- Nilai UTS\n- Nilai UAS\n- Nilai hafalan (halaman/juz)',
      proc:'- Nilai Akhir = (Harian×30%) + (UTS×30%) + (UAS×40%)\n- Predikat: A(≥90), B(75–89), C(60–74), D(<60)\n- Ranking kelas otomatis dari rata-rata semua mapel',
